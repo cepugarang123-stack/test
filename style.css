@@ -1,0 +1,140 @@
+/* =========================================================
+   Web Photobooth — style.css (girly, pink gradient)
+   ========================================================= */
+
+/* ---------- Theme & Vars ---------- */
+:root{
+  --bg1:#ffe3ec;   /* pink muda */
+  --bg2:#ffc0cb;   /* pink klasik */
+  --bg3:#ff99cc;   /* pink gradasi lebih pekat */
+  --fg:#4a2c3b;    /* teks gelap keunguan */
+  --accent:#e91e63;/* pink fuchsia */
+  --muted:#a77488; /* abu pinkish */
+  --danger:#f06292; 
+  --warn:#ffca28;
+  --ok:#81c784;
+
+  /* Kamera (landscape) */
+  --cam-w: 520px;
+  --cam-aspect: 4 / 3;
+}
+
+/* ---------- Base ---------- */
+*{ box-sizing:border-box; }
+body{
+  margin:0;
+  background:linear-gradient(180deg,var(--bg1),var(--bg2),var(--bg3));
+  color:var(--fg);
+  min-height:100svh;
+  display:flex; flex-direction:column;
+  font-family: "Poppins", ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+}
+a{ color:#d81b60; }
+
+/* ---------- Header & Status ---------- */
+header{
+  padding:16px 20px; display:flex; align-items:flex-start; gap:12px;
+  border-bottom:1px solid rgba(255,255,255,.3);
+  position:sticky; top:0; z-index:10;
+  background:rgba(255,192,203,.7); backdrop-filter:saturate(140%) blur(6px);
+}
+header h1{ margin:0; font-size:18px; letter-spacing:.3px; color:#8e244d; }
+
+.status{
+  flex:1; font-size:13px; line-height:1.35;
+  padding:10px 12px; border-radius:10px;
+  border:1px solid rgba(255,255,255,.5); background:rgba(255,255,255,.4);
+}
+.status.ok{   border-color:#c8e6c9; background:rgba(129,199,132,.25); color:#2e7d32; }
+.status.warn{ border-color:#ffe082; background:rgba(255,202,40,.25);  color:#6d4c00; }
+.status.error{border-color:#f8bbd0; background:rgba(240,98,146,.25); color:#ad1457; }
+
+/* ---------- Main Layout ---------- */
+main{
+  display:grid; gap:16px; padding:16px;
+  grid-template-columns:1.2fr .8fr;
+}
+@media (max-width:900px){ main{ grid-template-columns:1fr; } }
+
+.stage{ display:grid; grid-template-rows:auto 1fr auto; gap:12px; }
+
+/* ---------- Camera Stage (LANDSCAPE) ---------- */
+.stage .video-wrap{
+  position:relative;
+  width:clamp(300px, 60vw, var(--cam-w));
+  aspect-ratio:var(--cam-aspect);
+  background:#fff0f5;
+  border-radius:16px; overflow:hidden;
+  box-shadow:0 10px 30px rgba(0,0,0,.25);
+  margin-inline:auto;
+}
+#video, #canvas{
+  position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
+  transform:scaleX(-1); display:block;
+}
+#canvas{ z-index:2; display:none; }
+#video{ z-index:1; }
+.overlay{ position:absolute; inset:0; z-index:3; pointer-events:none; }
+.frame{
+  position:absolute; inset:0; border:20px solid rgba(255,255,255,.25);
+  border-radius:16px; pointer-events:none;
+}
+.sticker{
+  position:absolute; z-index:4; pointer-events:auto; cursor:grab;
+  width:120px; opacity:.95;
+  filter:drop-shadow(0 4px 10px rgba(0,0,0,.4));
+  left:12px; bottom:12px;
+}
+.countdown{
+  position:absolute; inset:0; display:grid; place-items:center;
+  font-size:56px; font-weight:800; color:#fff; text-shadow:0 8px 30px rgba(0,0,0,.6);
+}
+.hidden{ display:none !important; }
+
+/* ---------- Controls ---------- */
+.controls{ display:flex; flex-wrap:wrap; gap:10px; align-items:center; }
+.controls > *{ flex:none; }
+
+button, select, input[type="text"], input[type="color"], input[type="file"]{
+  background:rgba(255,255,255,.6); color:var(--fg);
+  border:1px solid rgba(255,255,255,.5); padding:10px 12px;
+  border-radius:12px; font-weight:600; cursor:pointer;
+  backdrop-filter:blur(4px);
+}
+button:hover, select:hover{ border-color:#ec407a; }
+button:focus-visible, select:focus-visible, input:focus-visible{
+  outline:2px solid #f48fb1; outline-offset:2px;
+}
+.primary{ background:linear-gradient(180deg,#f48fb1,#ec407a); border:none; color:#fff; }
+.danger{  background:linear-gradient(180deg,#ef5350,#c62828); border:none; color:#fff; }
+.ghost{   background:#fce4ec; color:#880e4f; }
+
+/* ---------- Sidebar Panels ---------- */
+.panel{
+  padding:12px; border:1px solid rgba(255,255,255,.4);
+  border-radius:14px; background:rgba(255,255,255,.3);
+}
+.panel h2{ font-size:14px; margin:0 0 8px; color:#ad1457; opacity:.9; letter-spacing:.4px; }
+.hint{ color:var(--muted); font-size:12px; }
+
+/* ---------- Gallery ---------- */
+.gallery{
+  display:grid; gap:10px;
+  grid-template-columns:repeat(auto-fill, minmax(120px,1fr));
+}
+.thumb{
+  position:relative; border-radius:12px; overflow:hidden; 
+  border:2px solid #f8bbd0;
+}
+.thumb img{ width:100%; height:100%; object-fit:cover; display:block; }
+.thumb a{
+  position:absolute; bottom:6px; right:6px;
+  background:rgba(236,64,122,.7); color:#fff;
+  font-size:12px; padding:6px 8px; border-radius:8px; text-decoration:none;
+}
+
+/* ---------- Responsif ---------- */
+@media (max-width:480px){
+  .stage .video-wrap{ width:95vw; }
+  .sticker{ width:90px; }
+}
